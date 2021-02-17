@@ -6,6 +6,7 @@ import {TextInput, TextInputPassword, ProgressDialog} from '../../components';
 import Colors from '../res/Colors';
 import HttpClient from '../../data/HttpClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetworkConfig from '../../data/NetworkConfig';
 
 const LoginScreen = (props) => {
   const [email, setEmail] = useState('');
@@ -34,7 +35,7 @@ const LoginScreen = (props) => {
       Alert.alert('Login', "Email or Password don't empty");
       return;
     }
-    let url = 'http://10.0.2.2:8000/api/auth/login';
+    let url = NetworkConfig.URL + 'api/auth/login';
     try {
       let response = await HttpClient.Request.post(url).jsonBody({
         email: email,

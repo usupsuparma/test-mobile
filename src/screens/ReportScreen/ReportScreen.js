@@ -3,6 +3,7 @@ import {View, Text, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HttpClient from '../../data/HttpClient';
 import {ProgressDialog} from '../../components';
+import NetworkConfig from '../../data/NetworkConfig';
 
 const ReportScreen = () => {
     const [presences, setPresences] = useState([]);
@@ -13,7 +14,8 @@ const ReportScreen = () => {
             setLoading(true);
             let token = await AsyncStorage.getItem('token');
             console.log(token);
-            let res = await HttpClient.Request.get('http://10.0.2.2:8000/api/presence/details')
+            let url = NetworkConfig.URL + 'api/presence/details';
+            let res = await HttpClient.Request.get(url)
                 .bearerToken(token)
                 .call();
             let body = await res.json();

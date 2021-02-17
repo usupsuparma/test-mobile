@@ -5,6 +5,7 @@ import {ProgressDialog, TextInput, TextInputPassword} from '../../components';
 import {Button, Icon} from 'react-native-elements';
 import Colors from '../res/Colors';
 import HttpClient from '../../data/HttpClient';
+import NetworkConfig from '../../data/NetworkConfig';
 
 const RegisterScreen = (props) => {
   const [name, setName] = useState('');
@@ -17,7 +18,8 @@ const RegisterScreen = (props) => {
     console.log('Register');
     setLoading(true);
     try {
-        let res = await HttpClient.Request.post('http://10.0.2.2:8000/api/auth/register')
+        let url = NetworkConfig.URL + 'api/auth/register';
+        let res = await HttpClient.Request.post(url)
             .jsonBody({
                 name: name,
                 email: email,

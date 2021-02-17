@@ -4,6 +4,7 @@ import {ProgressDialog} from '../../components';
 import HttpClient from '../../data/HttpClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from '../res/Colors';
+import NetworkConfig from '../../data/NetworkConfig';
 
 const PresenceScreen = () => {
     const [status, setStatus] = useState(0);
@@ -16,7 +17,8 @@ const PresenceScreen = () => {
         const token = await AsyncStorage.getItem('token');
         console.log(token);
         try {
-            let res = await HttpClient.Request.get('http://10.0.2.2:8000/api/presence/cek-status')
+            let url = NetworkConfig.URL + 'api/presence/cek-status'
+            let res = await HttpClient.Request.get(url)
                 .bearerToken(token)
                 .call();
             console.log(res);
@@ -38,11 +40,13 @@ const PresenceScreen = () => {
     const presenceIn = async () => {
         try {
             setLoading(true)
+            let url = NetworkConfig.URL + 'api/presence/in'
             let token = await AsyncStorage.getItem('token');
-            let res = await HttpClient.Request.post('http://10.0.2.2:8000/api/presence/in')
+            let res = await HttpClient.Request.post(url)
                 .bearerToken(token)
                 .call();
             let body = await res.json();
+            console.log(body.message);
             setLoading(false);
             if (body.success === true) {
                 alert('Presence In Success')
@@ -61,7 +65,8 @@ const PresenceScreen = () => {
             try {
                 setLoading(true)
                 let token = await AsyncStorage.getItem('token');
-                let res = await HttpClient.Request.post('http://10.0.2.2:8000/api/presence/out')
+                let url = NetworkConfig.URL + 'api/presence/out';
+                let res = await HttpClient.Request.post(url)
                     .bearerToken(token)
                     .call();
                 let body = await res.json();
